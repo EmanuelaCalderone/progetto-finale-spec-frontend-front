@@ -7,10 +7,22 @@ function CellPhoneList() {
     //stato per ricerca
     const [query, setQuery] = useState('');
 
+    //stato per funzione con debounce per ricerca
+    const [debouncedQuery, setDebouncedQuery] = useState('');
+
     //cellulari filtrati
     const filteredPhones = cellPhones.filter((phone) =>
-        phone.title.toLowerCase().includes(query.trim().toLowerCase())
+        phone.title.toLowerCase().includes(debouncedQuery.trim().toLowerCase())
     );
+
+    //funzione debounce
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedQuery(query.trim());
+            console.log('filtro aggiornato con:', query.trim())
+        }, 1000);
+        return () => clearTimeout(timer);
+    }, [query]);
 
     //recupero dati
     useEffect(() => {
