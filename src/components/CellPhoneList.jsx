@@ -10,10 +10,23 @@ function CellPhoneList() {
     //stato per funzione con debounce per ricerca
     const [debouncedQuery, setDebouncedQuery] = useState('');
 
-    //cellulari filtrati
-    const filteredPhones = cellPhones.filter((phone) =>
-        phone.title.toLowerCase().includes(debouncedQuery.trim().toLowerCase())
-    );
+    //stato per gestione categoria selezionata
+    const [selectedCategory, setSelectedCategory] = useState('')
+
+    //recupero le categorie con reduce per rimuovere i duplicati
+    const categories = cellPhones.reduce((acc, phone) => {
+        if (!acc.includes(phone.category))
+            acc.push(phone.category);
+        return acc;
+    }, []);
+
+    //recupero dati dal backend
+    useEffect(() => {
+        fetch('http://localhost:3001/cellulars')
+            .then((res) => res.json())
+            .then((data) => setCellPhones(data))
+            .catch((error) => console.error('Errore nel caricamento: ', error));
+    }, []);
 
     //funzione debounce
     useEffect(() => {
@@ -24,13 +37,14 @@ function CellPhoneList() {
         return () => clearTimeout(timer);
     }, [query]);
 
-    //recupero dati
-    useEffect(() => {
-        fetch('http://localhost:3001/cellulars')
-            .then((res) => res.json())
-            .then((data) => setCellPhones(data))
-            .catch((error) => console.error('Errore nel caricamento: ', error));
-    }, []);
+    //logica filtro per nome
+    const filteredPhones = cellPhones
+        .filter((phone) =>
+            phone.title.toLowerCase().includes(debouncedQuery.trim().toLowerCase()))
+        //logica filtro per categoria
+        .filter((phone) =>
+            selectedCategory ? phone.category === selectedCategory : true
+        );
 
     return (
         <div className="app-container">
@@ -42,6 +56,19 @@ function CellPhoneList() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
             />
+
+            {/* menu a tendina per categoria */}
+            <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+                <option value="">Tutte le categorie</option>
+                {categories.map((category) => (
+                    <option key={category} value={category} >
+                        {category}
+                    </option>
+                ))}
+            </select>
 
             {/* record cellulari */}
             <div className="CellPhones-list">
