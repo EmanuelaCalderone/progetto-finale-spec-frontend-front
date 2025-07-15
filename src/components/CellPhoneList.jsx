@@ -7,6 +7,11 @@ function CellPhoneList() {
     //stato per ricerca
     const [query, setQuery] = useState('');
 
+    //cellulari filtrati
+    const filteredPhones = cellPhones.filter((phone) =>
+        phone.title.toLowerCase().includes(query.trim().toLowerCase())
+    );
+
     //recupero dati
     useEffect(() => {
         fetch('http://localhost:3001/cellulars')
@@ -28,16 +33,16 @@ function CellPhoneList() {
 
             {/* record cellulari */}
             <div className="CellPhones-list">
-                {cellPhones.length > 0 ? (
+                {filteredPhones.length > 0 ? (
                     <ul>
-                        {cellPhones.map((phone) => (
+                        {filteredPhones.map((phone) => (
                             <li key={phone.id}>
                                 <strong>{phone.title}</strong> - <em>{phone.category}</em>
                             </li>
                         ))}
                     </ul>
                 ) : (
-                    <p>Nessun cellulare disponibile</p>
+                    <p>Nessun risultato corrisponde a {query}</p>
                 )}
             </div>
         </div>
