@@ -13,6 +13,14 @@ function CellPhoneList() {
     //stato per gestione categoria selezionata
     const [selectedCategory, setSelectedCategory] = useState('')
 
+    //stato per campo da ordinare
+    const [sortField, setSortField] = useState('title')
+    //stato per ordine alfabetico
+    const [sortOrder, setSortOrder] = useState('asc')
+
+    //stato per caricamento
+    const [isLoading, setIsLoading] = useState(true);
+
     //recupero le categorie con reduce per rimuovere i duplicati
     const categories = cellPhones.reduce((acc, phone) => {
         if (!acc.includes(phone.category))
@@ -24,16 +32,22 @@ function CellPhoneList() {
     useEffect(() => {
         fetch('http://localhost:3001/cellulars')
             .then((res) => res.json())
-            .then((data) => setCellPhones(data))
-            .catch((error) => console.error('Errore nel caricamento: ', error));
+            .then((data) => {
+                setCellPhones(data);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.error('Errore nel caricamento: ', error);
+                setIsLoading(false);
+            });
     }, []);
 
     //funzione debounce
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedQuery(query.trim());
-            console.log('filtro aggiornato con:', query.trim())
-        }, 1000);
+/*             console.log('filtro aggiornato con:', query.trim())
+ */        }, 1000);
         return () => clearTimeout(timer);
     }, [query]);
 
@@ -45,6 +59,16 @@ function CellPhoneList() {
         .filter((phone) =>
             selectedCategory ? phone.category === selectedCategory : true
         );
+
+    //ordine alfabetico
+    const sortedPhones = [...filteredPhones].sort((a, b) => {
+        const first = a[sortField].toLowerCase();
+        const second = b[sortField].toLowerCase();
+
+        return sortOrder === 'asc'
+            ? first.localeCompare(second)
+            : second.localeCompare(first);
+    })
 
     return (
         <div className="app-container">
@@ -70,11 +94,29 @@ function CellPhoneList() {
                 ))}
             </select>
 
+            {/*"ordina per" in ordine alfabetico*/}
+            <div className="order">
+                <select
+                    value={sortField}
+                    onChange={(e) => {
+                        const selected = e.target.value;
+                        if (selected === sortField) {
+                            setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
+                        } else {
+                            setSortField(selected);
+                            setSortOrder('asc');
+                        }
+                    }}>
+                    <option value="title">Ordina per: nome</option>
+                    <option value="category">Ordina per: categoria</option>
+                </select>
+            </div>
+
             {/* record cellulari */}
             <div className="CellPhones-list">
                 {filteredPhones.length > 0 ? (
                     <ul>
-                        {filteredPhones.map((phone) => (
+                        {sortedPhones.map((phone) => (
                             <li key={phone.id}>
                                 <strong>{phone.title}</strong> - <em>{phone.category}</em>
                             </li>
@@ -84,7 +126,7 @@ function CellPhoneList() {
                     <p>Nessun risultato corrisponde a {query}</p>
                 )}
             </div>
-        </div>
+        </div >
     );
 }
 
