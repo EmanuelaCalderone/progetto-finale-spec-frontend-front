@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'
 
 function CellPhoneList() {
     //stato per lista cellulari
@@ -30,17 +31,48 @@ function CellPhoneList() {
 
     //recupero dati dal backend
     useEffect(() => {
-        fetch('http://localhost:3001/cellulars')
-            .then((res) => res.json())
-            .then((data) => {
-                setCellPhones(data);
+        //funzione eseguita al primo render
+        const fetchPhonesWithDetails = async () => {
+            try {
+                //primo fetch: recupero la lista "base" (id, title, category)
+                const res = await fetch('http://localhost:3001/cellulars');
+
+                //parso il risultato in json
+                const basicPhones = await res.json();
+
+                //per ogni telefono nella lista base, faccio un'altra fetch del dettaglio
+                const fullPhones = await Promise.all(
+                    basicPhones.map(async (phone) => {
+                        //recupero dal backend il singolo telefono via id
+                        const res = await fetch(`http://localhost:3001/cellulars/${phone.id}`);
+
+                        //parso risposta singola
+                        const data = await res.json();
+
+                        //recupero dal campo 'cellular' dall’oggetto restituito
+                        return data.cellular;
+                    })
+                );
+
+                //ottengo tutti i dati e aggiorno lo stato globale
+                setCellPhones(fullPhones);
+
+                //imposto stato di caricamento come terminato
                 setIsLoading(false);
-            })
-            .catch((error) => {
-                console.error('Errore nel caricamento: ', error);
+            } catch (error) {
+                //gestione errore nei fetch
+                console.error('Errore nel caricamento:', error);
+
+                //imposto stato di caricamento come terminato
                 setIsLoading(false);
-            });
+            }
+        };
+
+        //esecuzione effettiva della funzione asincrona al montaggio del componente
+        fetchPhonesWithDetails();
     }, []);
+
+
 
     //funzione debounce
     useEffect(() => {
@@ -117,11 +149,17 @@ function CellPhoneList() {
                 {filteredPhones.length > 0 ? (
                     <ul>
                         {sortedPhones.map((phone) => (
-                            <li key={phone.id}>
-                                <strong>{phone.title}</strong> - <em>{phone.category}</em>
+                            <li key={phone.id} className="single-phone">
+                                <img src={phone.image} alt={phone.title} style={{ maxWidth: '100px', display: 'block' }} />
+
+                                <Link to={`/cellulars/${phone.id}`}>
+                                    <strong>{phone.title}</strong> - <em>{phone.category}</em>
+                                </Link>
                             </li>
+
                         ))}
                     </ul>
+
                 ) : (
                     <p>Nessun risultato corrisponde a {query}</p>
                 )}
