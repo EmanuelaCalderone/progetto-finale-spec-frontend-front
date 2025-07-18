@@ -1,10 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './styles/App.css';
+import App from './App.jsx';
+//condivisione dati globali tra tutti i componenti
+import { GlobalProvider } from './context/GlobalContext';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
-)
+    <GlobalProvider>
+      <App />
+    </GlobalProvider>
+  </StrictMode>
+);

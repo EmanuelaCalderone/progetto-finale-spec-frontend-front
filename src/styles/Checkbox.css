@@ -1,0 +1,38 @@
+.checkbox-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6em;
+    margin-top: 1.7em;
+}
+
+.checkbox-container span {
+    width: 200px;
+    display: inline-block;
+    text-align: left;
+}
+
+/*tooltip*/
+.checkbox-status {
+    position: absolute;
+    top: -2.2em;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f1e5d3;
+    color: black;
+    font-weight: bold;
+    padding: 0.4em 0.8em;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 1.6em;
+    height: 1.6em;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    accent-color: #f1e5d3;
+}

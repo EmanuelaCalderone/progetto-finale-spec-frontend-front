@@ -1,0 +1,26 @@
+/*contenitore del bottone torna indietro*/
+.go-back-wrapper {
+    position: fixed;
+    top: 10rem;
+    left: 2rem;
+    z-index: 1000;
+}
+
+/*bottone torna indietro*/
+.go-back-button {
+    background-color: #1e1e1e;
+    color: #f2f2f2;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6em 1.2em;
+    font-size: 1rem;
+    cursor: pointer;
+    display: inline-block;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/*hover bottone*/
+.go-back-button:hover {
+    transform: scale(1.06);
+    background-color: #2a2a2a;
+}

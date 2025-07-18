@@ -1,0 +1,21 @@
+.intro-container {
+    background-color: #1c1c1c;
+    color: #bcb8b8;
+    padding: 2em;
+    text-align: justify;
+    max-width: 800px;
+    margin: 6em auto;
+    border-radius: 12px;
+    line-height: 1.8;
+    font-size: 1.1rem;
+    letter-spacing: 0.3px;
+}
+
+.intro-container a {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.intro-container a:hover {
+    text-decoration: underline;
+}

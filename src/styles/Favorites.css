@@ -1,0 +1,149 @@
+/*contenitore principale*/
+.favorites-container {
+    padding: 2em;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #121212;
+    color: #f2f2f2;
+}
+
+/*titolo*/
+.favorites-container h2 {
+    text-align: center;
+    margin-bottom: 1.5em;
+    font-size: 1.8rem;
+    color: #f2f2f2;
+}
+
+/*no pref*/
+.empty-fav-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10rem;
+}
+
+.favorites-empty {
+    text-align: center;
+    background-color: #636060;
+    width: 40%;
+    border-radius: 10px;
+    padding: 4.5rem;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+    color: #f0f0f0;
+}
+
+/*lista preferiti*/
+.favorites-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 1200px;
+    list-style: none;
+}
+
+.favorite-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(45, 44, 44);
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    padding: 1em;
+    max-width: 280px;
+    width: 100%;
+    margin: 0.4em;
+    box-sizing: border-box;
+    flex: 1 1 280px;
+}
+
+/*blocco bianco*/
+.favorite-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    width: 15rem;
+    background-color: white;
+    padding: 0.8em;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    margin-bottom: 0.6em;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.favorite-visual:hover {
+    transform: scale(1.04);
+}
+
+.favorite-visual:active {
+    transform: scale(1.06);
+}
+
+.favorite-image {
+    margin: 0.8em auto 1em;
+    display: block;
+    max-width: 100%;
+    max-height: 100px;
+    object-fit: contain;
+    background-color: white;
+}
+
+.favorite-info {
+    text-align: center;
+}
+
+/*titolo tel*/
+.favorite-info strong {
+    color: rgb(52, 50, 50);
+    font-size: 1rem;
+}
+
+/*categoria*/
+.favorite-info em {
+    background-color: #0d0d0dae;
+    color: #ccc;
+    padding: 0.3em 0.6em;
+    border-radius: 6px;
+    font-style: italic;
+    display: inline-block;
+    margin-top: 0.3em;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05);
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.favorite-actions {
+    margin-top: 0.6em;
+    text-align: center;
+}
+
+/*bottone per rimuovere*/
+.remove-btn {
+    background-color: #f1e5d3;
+    font-weight: bold;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.remove-btn:hover {
+    background-color: #a30000;
+    transform: scale(1.05);
+}
+
+.remove-btn:active {
+    transform: scale(1.08);
+}
+
+.empty-fav-list {
+    text-align: center;
+    margin-top: 3rem;
+}

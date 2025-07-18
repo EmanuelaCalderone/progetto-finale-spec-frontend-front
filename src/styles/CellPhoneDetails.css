@@ -1,0 +1,117 @@
+/*contenitore principale*/
+.detail-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2em 1em;
+    color: #f2f2f2;
+}
+
+/*titolo centrale*/
+.detail-container h2 {
+    text-align: center;
+    margin-bottom: 2em;
+    font-size: 1.8rem;
+}
+
+/*scheda con immagine e specifiche*/
+.detail-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 2em;
+}
+
+/*contenitore immagine*/
+.detail-image {
+    max-width: 300px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*immagine del cellulare*/
+.detail-image img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 1em;
+}
+
+/*contenitore azioni sotto immagine*/
+.image-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+    align-items: center;
+}
+
+/*contenitori checkbox e preferiti*/
+.checkbox-wrapper,
+.favorite-wrapper {
+    text-align: center;
+    width: 100%;
+}
+
+/*etichetta checkbox*/
+.checkbox-wrapper label {
+    display: block;
+    margin-top: 0.3em;
+    font-size: 0.9rem;
+}
+
+/*contenitore specifiche*/
+.detail-specs {
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+/*gruppi specifiche in colonne*/
+.spec-columns {
+    display: flex;
+    gap: 2em;
+    flex-wrap: wrap;
+}
+
+/*lista specifiche*/
+.spec-group {
+    flex: 1 1 200px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.spec-group li {
+    margin-bottom: 0.6em;
+}
+
+/*lista prezzo*/
+.spec-price {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.5em;
+}
+
+.spec-price li {
+    margin-bottom: 0.6em;
+}
+
+/*link acquisto*/
+.purchase-link {
+    text-decoration: underline;
+    color: #f2f2f2;
+    font-style: italic;
+}
+
+/*hover link acquisto*/
+.purchase-link:hover {
+    color: #f1e5d3;
+    text-decoration-thickness: 2px;
+}

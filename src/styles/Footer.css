@@ -1,0 +1,34 @@
+.footer-container {
+    text-align: center;
+    padding: 2em 1em 2em;
+    background-color: #1e1e1e;
+    color: #f2f2f2;
+    font-size: 0.85rem;
+    border-top: 1px solid #2c2c2c;
+    position: relative;
+    z-index: 1;
+    margin: 0;
+}
+
+.footer-container p {
+    margin-bottom: 0.5em;
+    font-size: 1rem;
+}
+
+/*icone contatti*/
+.contact-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5em;
+    margin-bottom: 0;
+}
+
+.contact-icons a {
+    color: #f2f2f2;
+    font-size: 1.5rem;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.contact-icons a:hover {
+    transform: scale(1.5);
+}

@@ -1,0 +1,14 @@
+.empty-fav {
+    background-color: #f1e5d3;
+    padding: 0.6em 1.2em;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-top: 1em;
+}
+
+.empty-fav:hover {
+    transform: scale(1.01);
+}

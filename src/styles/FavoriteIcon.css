@@ -1,0 +1,53 @@
+.favorite-container {
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    margin-top: 1.2em;
+}
+
+/*tooltip aggiunto ai pref*/
+.favorite-status {
+    position: absolute;
+    bottom: 3.4em;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #49a88b;
+    color: white;
+    padding: 0.4em 0.8em;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+/*tooltip rimozione*/
+.favorite-status.removed {
+    background-color: #c0392b;
+}
+
+.heart-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.6rem;
+    padding: 0.2em;
+    transition: transform 0.2s ease, color 0.2s ease;
+    color: transparent;
+    margin-top: 0.2em;
+}
+
+.heart-icon span {
+    display: inline-block;
+    color: transparent;
+    -webkit-text-stroke: 1.5px white;
+    transition: color 0.2s ease;
+}
+
+.heart-icon.active span {
+    color: white;
+    -webkit-text-stroke: 0;
+}
+
+.heart-icon:hover {
+    transform: scale(1.1);
+}
