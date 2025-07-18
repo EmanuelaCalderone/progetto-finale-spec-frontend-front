@@ -1,7 +1,7 @@
 /*contenitore bottone*/
 .select-button-wrapper {
     position: fixed;
-    top: 40em;
+    bottom: 1em;
     right: 2em;
     z-index: 100;
     display: flex;
@@ -12,7 +12,7 @@
 /*bottone*/
 .button-fixed {
     padding: 1rem;
-    background-color: #4b4a4a;
+    background-color: #2a2929;
     color: #fff;
     border: none;
     width: 180px;
@@ -21,7 +21,6 @@
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
     font-size: 0.95rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -29,6 +28,7 @@
 
 .button-fixed:hover {
     background-color: #2a2828;
+    box-shadow: none;
 }
 
 /*versione disabilitata*/

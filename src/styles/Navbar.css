@@ -13,8 +13,11 @@
     top: 0.8em;
     left: 0.5em;
     width: 7%;
+    min-width: 90px;
+    max-width: 120px;
     object-fit: contain;
 }
+
 
 /*link*/
 .navbar-links {

@@ -88,8 +88,6 @@ function CellPhoneList() {
                 //ottengo tutti i dati e aggiorno lo stato globale
                 setCellPhones(fullPhones);
 
-                //imposto stato di caricamento come terminato
-                setIsLoading(false);
             } catch (error) {
                 //gestione errore nei fetch
                 console.error('Errore nel caricamento:', error);
