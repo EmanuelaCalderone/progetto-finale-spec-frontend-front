@@ -67,6 +67,10 @@ function CellPhoneList() {
                 //parso il risultato in json
                 const basicPhones = await res.json();
 
+                //mostro subito la lista
+                setCellPhones(basicPhones);
+                setIsLoading(false);
+
                 //per ogni telefono nella lista base, faccio un'altra fetch del dettaglio
                 const fullPhones = await Promise.all(
                     basicPhones.map(async (phone) => {
@@ -89,9 +93,6 @@ function CellPhoneList() {
             } catch (error) {
                 //gestione errore nei fetch
                 console.error('Errore nel caricamento:', error);
-
-                //imposto stato di caricamento come terminato
-                setIsLoading(false);
             }
         };
 
