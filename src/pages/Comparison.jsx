@@ -19,6 +19,7 @@ function Comparison() {
         return (
             <div className="comparison-table-container">
                 <h2 className="comparison-title">Telefonini vintage a confronto</h2>
+                <h3>Nessun telefono selezionato per il confronto</h3>
                 <div className="select-button-wrapper">
                     <Link to="/" className="home-link">
                         <button className="select-button-fixed">
