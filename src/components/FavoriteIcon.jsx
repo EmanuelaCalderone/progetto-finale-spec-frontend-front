@@ -23,7 +23,7 @@ function FavoriteIcon({ phone }) {
     const handleClick = useCallback(() => {
         toggleFavorite(phone); //dal global context
         setStatus(isFavorite ? 'Rimosso dai preferiti' : 'Aggiunto ai preferiti');
-        setTimeout(() => setStatus(''), 2000);
+        setTimeout(() => setStatus(''), 1000);
     }, [toggleFavorite, phone, isFavorite]);
 
     const heartClass = isFavorite ? 'heart-icon active' : 'heart-icon';
