@@ -2,6 +2,9 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 //importo il debounce
 import { debounce } from '../utils/utils';
 
+//importo hook per localStorage
+import { useLocalStorage } from '../hooks/useLocalStorage';
+
 const GlobalContext = createContext();
 
 export function GlobalProvider({ children }) {
@@ -22,10 +25,11 @@ export function GlobalProvider({ children }) {
     );
 
     //2.1inizializzo stato dei PREFERITI salvati su LOCALSTORAGE (dati persistenti)
-    const [favorites, setFavorites] = useState(() => { //così la chiamata avviene solo al primo render (funzione 'lazy inizialiter)
+    const [favorites, setFavorites] = useLocalStorage('favorites', []);
+    /* const [favorites, setFavorites] = useState(() => { //così la chiamata avviene solo al primo render (funzione 'lazy inizialiter)
         const stored = localStorage.getItem('favorites');
         return stored ? JSON.parse(stored) : [];
-    });
+    }); */
 
     //2.2gestione interattiva dello stato
     /* const toggleFavorite = (phone) => {
@@ -47,16 +51,18 @@ export function GlobalProvider({ children }) {
     }, []);
 
     //2.3effetto all'aggiunta/rimozione di favorites
-    useEffect(() => {
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-    }, [favorites]);
+    /*  useEffect(() => {
+         localStorage.setItem('favorites', JSON.stringify(favorites));
+     }, [favorites]); */
 
 
     //3.1inizializzo stato per lista CONFRONTO salvata su LOCALSTORAGE
-    const [compareList, setCompareList] = useState(() => {
-        const stored = localStorage.getItem('compareList');
-        return stored ? JSON.parse(stored) : [];
-    });
+    const [compareList, setCompareList] = useLocalStorage('compareList', []);
+
+    /*  const [compareList, setCompareList] = useState(() => {
+         const stored = localStorage.getItem('compareList');
+         return stored ? JSON.parse(stored) : [];
+     }); */
 
     //3.2gestione interattiva dello stato
     const toggleCompare = (phone) => {
@@ -77,9 +83,9 @@ export function GlobalProvider({ children }) {
     };
 
     //3.3 effetto che viene eseguito ogni volta che viene aggiunto/rimosso un tel alla lista di confronto
-    useEffect(() => {
+    /* useEffect(() => {
         localStorage.setItem('compareList', JSON.stringify(compareList));
-    }, [compareList]);
+    }, [compareList]); */
 
     //4.stato per apertura/chiusura SIDEBAR
     const [sidebarOpen, setSidebarOpen] = useState(false);
