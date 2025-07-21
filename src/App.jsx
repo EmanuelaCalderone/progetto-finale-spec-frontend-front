@@ -22,7 +22,7 @@ function App() {
       <div className="app-wrapper">
         <Navbar toggleOpen={toggleSidebar} />
         <FavoriteSidebar />
-        <div className="main-container">
+        <main className="main-container">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -30,7 +30,7 @@ function App() {
             <Route path="/compare" element={<Comparison />} />
             <Route path="/cellulars/:id" element={<CellPhoneDetails />} />
           </Routes>
-        </div>
+        </main>
         <Footer />
       </div>
     </BrowserRouter>
