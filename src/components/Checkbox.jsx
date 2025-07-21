@@ -40,7 +40,7 @@ function Checkbox({ phone }) {
             <label className="checkbox-label">
                 <input
                     type="checkbox"
-                    checked={isSelected}
+                    aria-checked={isSelected}
                     onChange={handleChange}
                 />
             </label>
