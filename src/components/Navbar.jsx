@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import logo from '../assets/logo_big.png';
 import { useGlobalContext } from '../context/GlobalContext';
 //stile
@@ -12,7 +12,7 @@ function Navbar() {
             <img src={logo} className="navbar-logo" alt="Cellulari Vintage" />
 
             <ul className="navbar-links">
-                <li><Link //per resettare il campo della barra di ricerca quando si clicca su home
+                <li><NavLink //per resettare il campo della barra di ricerca quando si clicca su home
                     to="/"
                     onClick={() => {
                         setQuery(''); //svuoto l'input
@@ -21,10 +21,10 @@ function Navbar() {
                 >
                     Home
 
-                </Link>
+                </NavLink>
                 </li>
 
-                <li><Link to="/about">About</Link></li>
+                <li><NavLink to="/about">About</NavLink></li>
             </ul>
 
             {/*cuore in alto a destra */}
