@@ -1,7 +1,13 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 //importo il contesto per i preferiti e il confronto
 import { useGlobalContext } from '../context/GlobalContext';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import { Link } from 'react-router-dom'
+//per recuperare info sulla route attuale
+import { useLocation } from 'react-router-dom';
+
+//importo il debounce
+import { debounce } from '../utils/utils';
 
 //componenti
 import Checkbox from './Checkbox';
@@ -15,13 +21,15 @@ import '../styles/CellPhoneList.css';
 function CellPhoneList() {
 
     //stati e funzioni dal contesto
-    const { favorites, toggleFavorite, compareList, setCompareList, query, setQuery, debouncedQuery, handleSearch } = useGlobalContext();
+    const { favorites, toggleFavorite, compareList, setCompareList, query, setQuery, debouncedQuery, setDebouncedQuery } = useGlobalContext();
 
     //stato per caricamento
-    const [isLoading, setIsLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    //stato per errore
+    const [error, setError] = useState(null);
 
     //stato per lista cellulari
-    const [cellPhones, setCellPhones] = useState([]);
+    const [cellPhones, setCellPhones] = useLocalStorage('cellPhones', []);
 
     //stato per gestione categoria selezionata
     const [selectedCategory, setSelectedCategory] = useState('')
@@ -32,11 +40,30 @@ function CellPhoneList() {
     //stato per ordine alfabetico
     const [sortOrder, setSortOrder] = useState('asc')
 
+    const location = useLocation();
+
     //useRef per barra di ricerca subito attiva
     const inputRef = useRef(null);
     useEffect(() => {
         inputRef.current.focus()
     }, []);
+
+    //funzione debounce per non aggiornare lo stato ad ogni battitura
+    const handleSearch = useCallback(
+        debounce((newQuery) => {
+            setDebouncedQuery(newQuery.trim());
+            //console.log('Digitazione:', newQuery.trim());
+        }, 300),
+        []
+    );
+
+    //svuoto la barra di ricerca
+    useEffect(() => {
+        if (location.pathname === "/") {
+            setQuery('');
+            setDebouncedQuery('');
+        }
+    }, [location.pathname]);
 
     //recupero le categorie con reduce per rimuovere i duplicati
     /* const categories = cellPhones.reduce((acc, phone) => {
@@ -60,22 +87,25 @@ function CellPhoneList() {
     useEffect(() => {
         //funzione eseguita al primo render
         const fetchPhonesWithDetails = async () => {
+            setLoading(true);
+            setError(null);
+
             try {
+
                 //primo fetch: recupero la lista "base" (id, title, category)
                 const res = await fetch('http://localhost:3001/cellulars');
 
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
+
                 //parso il risultato in json
                 const basicPhones = await res.json();
-
-                //mostro subito la lista
-                setCellPhones(basicPhones);
-                setIsLoading(false);
 
                 //per ogni telefono nella lista base, faccio un'altra fetch del dettaglio
                 const fullPhones = await Promise.all(
                     basicPhones.map(async (phone) => {
                         //recupero dal backend il singolo telefono via id
                         const res = await fetch(`http://localhost:3001/cellulars/${phone.id}`);
+                        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
                         //parso risposta singola
                         const data = await res.json();
@@ -87,16 +117,24 @@ function CellPhoneList() {
 
                 //ottengo tutti i dati e aggiorno lo stato globale
                 setCellPhones(fullPhones);
+                setLoading(false);
 
             } catch (error) {
                 //gestione errore nei fetch
+                setError(error.message);
                 console.error('Errore nel caricamento:', error);
             }
         };
 
-        //esecuzione effettiva della funzione asincrona al montaggio del componente
-        fetchPhonesWithDetails();
-    }, []);
+        //se la lista è già caricata (non vuota), non fa di nuovo la fetch
+        if (cellPhones.length === 0) {
+            fetchPhonesWithDetails();
+        } else {
+            setLoading(false);
+        }
+
+    }, [cellPhones.length, setCellPhones]);
+
 
     //logica filtro per nome
     const filteredPhones = useMemo(() => {
@@ -188,9 +226,7 @@ function CellPhoneList() {
 
             {/*record cellulari*/}
             <div className="CellPhones-list">
-                {isLoading ? (
-                    <p>Caricamento...</p>
-                ) : filteredPhones.length > 0 ? (
+                {filteredPhones.length > 0 ? (
                     <ul>
                         {sortedPhones.map((phone) => (
                             <li key={phone.id} className="single-phone">

@@ -22,14 +22,16 @@ function Checkbox({ phone }) {
     //logica per la checkbox
     const handleChange = (e) => {
         if (e.target.checked) {
-            if (compareList.length >= 3 && !isSelected) {
-                setStatus('Puoi confrontare al massimo 3 telefoni');
-                setTimeout(() => setStatus(''), 2000);
-                return;
-            }
-            setCompareList([...compareList, phone]);
+            setCompareList((prevCompareList) => {
+                if (prevCompareList.length >= 3 && !isSelected) {
+                    setStatus('Puoi confrontare al massimo 3 telefoni');
+                    setTimeout(() => setStatus(''), 2000);
+                    return prevCompareList;
+                }
+                return [...prevCompareList, phone];
+            });
         } else {
-            setCompareList(compareList.filter((p) => p.id !== phone.id));
+            setCompareList((prevCompareList) => prevCompareList.filter((p) => p.id !== phone.id));
         }
     };
 
@@ -40,7 +42,7 @@ function Checkbox({ phone }) {
             <label className="checkbox-label">
                 <input
                     type="checkbox"
-                    aria-checked={isSelected}
+                    checked={isSelected}
                     onChange={handleChange}
                 />
             </label>

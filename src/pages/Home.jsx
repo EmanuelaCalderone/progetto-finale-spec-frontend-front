@@ -17,7 +17,7 @@ function Home() {
                     loop
                     className="jumbo-video"
                 >
-                    <source src="/nostalgic_dialing.mp4" type="video/mp4" />
+                    <source src="/nostalgic_dialing.webm" type="video/webm" />
                     Il tuo browser non supporta il video.
                 </video>
             </div>

@@ -17,7 +17,7 @@ function CompareButton() {
                     <button className="button-fixed">Confronta</button>
                 </Link>
             ) : (
-                <button className="button-fixed button-disabled" aria-disabled={true}>
+                <button className="button-fixed button-disabled" disabled>
                     Seleziona massimo tre telefoni
                 </button>
             )}

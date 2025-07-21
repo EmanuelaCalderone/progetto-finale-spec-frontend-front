@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-//importo il debounce
-import { debounce } from '../utils/utils';
+
 
 //importo hook per localStorage
 import { useLocalStorage } from '../hooks/useLocalStorage';
@@ -9,20 +8,12 @@ const GlobalContext = createContext();
 
 export function GlobalProvider({ children }) {
 
-    //1.1stato per ricerca
+
+    //stato per ricerca
     const [query, setQuery] = useState('');
 
-    //1.2stato per funzione con debounce per ricerca
+    //stato per funzione con debounce per ricerca
     const [debouncedQuery, setDebouncedQuery] = useState('');
-
-    //1.3funzione debounce per non aggiornare lo stato ad ogni battitura
-    const handleSearch = useCallback(
-        debounce((newQuery) => {
-            setDebouncedQuery(newQuery.trim());
-            //console.log('Digitazione:', newQuery.trim());
-        }, 300),
-        []
-    );
 
     //2.1inizializzo stato dei PREFERITI salvati su LOCALSTORAGE (dati persistenti)
     const [favorites, setFavorites] = useLocalStorage('favorites', []);
@@ -70,7 +61,7 @@ export function GlobalProvider({ children }) {
 
         const updated = isInList
             ? compareList.filter((p) => p.id !== phone.id)
-            : compareList.length <= 3
+            : compareList.length < 3
                 ? [...compareList, phone]
                 : compareList;
 
@@ -99,6 +90,7 @@ export function GlobalProvider({ children }) {
         <GlobalContext.Provider
             value={{
                 favorites,
+                setFavorites,
                 toggleFavorite,
                 compareList,
                 toggleCompare,
@@ -109,9 +101,7 @@ export function GlobalProvider({ children }) {
                 query,
                 setQuery,
                 debouncedQuery,
-                setDebouncedQuery,
-                handleSearch,
-                setFavorites
+                setDebouncedQuery
             }}
         >
             {children}

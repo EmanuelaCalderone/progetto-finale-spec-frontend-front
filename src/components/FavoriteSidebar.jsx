@@ -36,7 +36,7 @@ function FavoriteSidebar() {
                                     <button
                                         className="remove-btn-sb"
                                         onClick={() => toggleFavorite(phone)}
-                                        aria-label="Rimuovi dai preferiti"
+                                        label="Rimuovi dai preferiti"
                                     >
                                         ❌
                                     </button>

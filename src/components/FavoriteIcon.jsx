@@ -9,15 +9,12 @@ function FavoriteIcon({ phone }) {
 
     const { favorites, toggleFavorite } = useGlobalContext();
 
-    const [isFavorite, setIsFavorite] = useState(false);
-
     //stato per il tooltip
     const [status, setStatus] = useState('');
 
     //controllo se phone è già tra i pref
-    useEffect(() => {
-        setIsFavorite(favorites.some((fav) => fav.id === phone.id));
-    }, [favorites, phone.id]);
+    const isFavorite = favorites.some((fav) => fav.id === phone.id);
+
 
     //funzione per aggiunzione/rimozione + tooltip
     const handleClick = useCallback(() => {
@@ -39,7 +36,7 @@ function FavoriteIcon({ phone }) {
             <button
                 className={heartClass}
                 onClick={handleClick}
-                aria-label="Toggle preferito"
+                label="Toggle preferito"
                 title="Preferiti"
             >
                 <span><i className="fas fa-heart"></i></span>
