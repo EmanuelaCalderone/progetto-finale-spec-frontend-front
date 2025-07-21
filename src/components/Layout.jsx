@@ -1,5 +1,3 @@
-import FavoriteSidebar from "./FavoriteSidebar";
-
 function Layout({ children }) {
     return (
         <>
