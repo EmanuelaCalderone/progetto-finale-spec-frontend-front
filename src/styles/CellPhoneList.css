@@ -2,7 +2,7 @@
 .app-container {
     max-width: 85rem;
     margin: 0 auto;
-    padding: 2em 1em;
+    padding: 2rem 1rem;
 }
 
 /*input di ricerca*/
@@ -90,7 +90,7 @@
 
 /*immagine del cellulare*/
 .phone-card img {
-    margin: 0.8em auto 1em;
+    margin: 0.8rem auto 1rem;
     display: block;
     max-width: 100%;
     max-height: 100px;
