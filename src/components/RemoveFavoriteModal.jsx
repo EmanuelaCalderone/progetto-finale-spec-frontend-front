@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 
 import '../styles/RemoveFavoriteModal.css';
 
-function RemoveFavoriteModal({ isOpen, phone, message, onConfirm, onCancel }) {
+function RemoveFavoriteModal({ isOpen, phone, onConfirm, onCancel, message }) {
     const modalRoot = document.getElementById('modal-root');
     if (!isOpen || /* !phone || */ !modalRoot) return null;
 

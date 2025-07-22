@@ -39,14 +39,15 @@ function formatValue(value, mode) {
         return 'N/D';
         //tutti gli altri valori ritornali in stringa
     } else if (value !== null && value !== undefined && value !== '') {
-        return String(value);
+        return String(value); //value.toSring() no sicuro con null/undefined perché non sono oggetti => non hanno metodi (type casting)
     } else {
         //fallback generica
         return 'N/D';
     }
 }
 
-//render generico componente
+//render generico componente (phone passato dal genitore CellPhoneDetails)
+//oggetto di props destrututrato direttamente nei parametri
 function PhoneSpecs({ phone, fields = DEFAULT_FIELDS, mode = 'list', otherPhone = null, lastPhone = null }) {
 
     //1.1 tabella
@@ -65,6 +66,7 @@ function PhoneSpecs({ phone, fields = DEFAULT_FIELDS, mode = 'list', otherPhone 
                     {fields.map(({ key, label }) => (
                         <tr key={key}>
                             <td>{label}</td>
+                            {/* formatValue: funzione per formattare i dati in modo leggibile, ad es. array unito con virgole */}
                             <td>{formatValue(phone[key], mode)}</td>
                             <td>{formatValue(otherPhone[key], mode)}</td>
                             {lastPhone && <td>{formatValue(lastPhone[key], mode)}</td>}

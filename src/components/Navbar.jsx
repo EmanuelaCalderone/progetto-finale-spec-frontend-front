@@ -1,7 +1,6 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import logo from '../assets/logo_big.png';
 import { useGlobalContext } from '../context/GlobalContext';
-import { useNavigate } from 'react-router-dom';
 
 //stile
 import '../styles/Navbar.css';
@@ -9,22 +8,15 @@ import '../styles/Navbar.css';
 function Navbar() {
     const { favorites, toggleSidebar, setQuery, setDebouncedQuery } = useGlobalContext();
 
-    const navigate = useNavigate();
-
     return (
         <nav className="navbar">
-            <img src={logo} className="navbar-logo" alt="Cellulari Vintage" />
+            <Link to="/">
+                <img src={logo} className="navbar-logo" alt="Cellulari Vintage" />
+            </Link>
 
             <ul className="navbar-links">
                 <li>
-                    <NavLink
-                        to="/"
-                        className="navbar-link-btn"
-                        onClick={() => {
-                            setQuery('');//svuoto barra ricerca
-                            setDebouncedQuery('');
-                        }}
-                    >
+                    <NavLink to="/" className="navbar-link-btn">
                         Home
                     </NavLink>
 

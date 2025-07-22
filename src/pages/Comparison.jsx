@@ -2,7 +2,7 @@ import React from 'react';
 
 //importo il contesto per leggere la lista dei tel da confrontare
 import { useGlobalContext } from '../context/GlobalContext';
-
+//per navigare tra le pag senza ricaricare
 import { Link } from 'react-router-dom';
 //componenti
 import GoBack from '../components/GoBack';

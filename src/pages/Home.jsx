@@ -18,6 +18,7 @@ function Home() {
                     className="jumbo-video"
                 >
                     <source src="/nostalgic_dialing.webm" type="video/webm" />
+                    {/* fallback */}
                     Il tuo browser non supporta il video.
                 </video>
             </div>

@@ -6,7 +6,6 @@ import '../styles/CompareButton.css';
 
 function CompareButton() {
     const { compareList } = useGlobalContext();
-    //console.log('Render CompareButton ', compareList.length);
 
     const isEnabled = compareList.length >= 2;
 
@@ -25,4 +24,4 @@ function CompareButton() {
     );
 }
 
-export default React.memo(CompareButton);
+export default CompareButton;

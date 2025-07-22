@@ -72,6 +72,7 @@ function CellPhoneDetails() {
                     <PhoneSpecs phone={phone} />
 
                     <ul className="spec-price">
+                        {/*rendering condition*/}
                         {phone.priceLira && !isNaN(Number(phone.priceLira)) && (
                             <li>
                                 <strong>Prezzo di lancio:</strong> circa{" "}

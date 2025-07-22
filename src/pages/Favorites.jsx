@@ -83,6 +83,7 @@ function Favorites() {
                 ))}
             </ul>
 
+            {/*componente per svuotare la lista dei pref*/}
             <div className="empty-fav-list">
                 <EmptyFav />
             </div>

@@ -3,9 +3,8 @@ import { useGlobalContext } from '../context/GlobalContext';
 //stile
 import '../styles/FavoriteIcon.css';
 
+//(phone figlio di CellPhoneList)
 function FavoriteIcon({ phone }) {
-    //console.log('Render FavoriteIcon:', phone.title);
-
 
     const { favorites, toggleFavorite } = useGlobalContext();
 

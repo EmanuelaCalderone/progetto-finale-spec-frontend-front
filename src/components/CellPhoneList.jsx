@@ -3,8 +3,6 @@ import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { useGlobalContext } from '../context/GlobalContext';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { Link } from 'react-router-dom'
-//per recuperare info sulla route attuale
-import { useLocation } from 'react-router-dom';
 
 //importo il debounce
 import { debounce } from '../utils/utils';
@@ -14,14 +12,19 @@ import Checkbox from './Checkbox';
 import FavoriteIcon from '../components/FavoriteIcon';
 import CompareButton from '../components/CompareButton';
 
-
 //stile
 import '../styles/CellPhoneList.css';
 
 function CellPhoneList() {
 
     //stati e funzioni dal contesto
-    const { favorites, toggleFavorite, compareList, setCompareList, query, setQuery, debouncedQuery, setDebouncedQuery } = useGlobalContext();
+    const { favorites, toggleFavorite, compareList, setCompareList } = useGlobalContext();
+
+    //stato per ricerca
+    const [query, setQuery] = useState('');
+
+    //stato per funzione con debounce per ricerca
+    const [debouncedQuery, setDebouncedQuery] = useState('');
 
     //stato per caricamento
     const [loading, setLoading] = useState(false);
@@ -40,8 +43,6 @@ function CellPhoneList() {
     //stato per ordine alfabetico
     const [sortOrder, setSortOrder] = useState('asc')
 
-    const location = useLocation();
-
     //useRef per barra di ricerca subito attiva
     const inputRef = useRef(null);
     useEffect(() => {
@@ -56,14 +57,6 @@ function CellPhoneList() {
         }, 300),
         []
     );
-
-    //svuoto la barra di ricerca
-    useEffect(() => {
-        if (location.pathname === "/") {
-            setQuery('');
-            setDebouncedQuery('');
-        }
-    }, [location.pathname]);
 
     //recupero le categorie con reduce per rimuovere i duplicati
     /* const categories = cellPhones.reduce((acc, phone) => {
@@ -97,7 +90,7 @@ function CellPhoneList() {
 
                 if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
 
-                //parso il risultato in json
+                //altrimenti parso il risultato in json
                 const basicPhones = await res.json();
 
                 //per ogni telefono nella lista base, faccio un'altra fetch del dettaglio
@@ -126,26 +119,25 @@ function CellPhoneList() {
             }
         };
 
-        //se la lista è già caricata (non vuota), non fa di nuovo la fetch
+        //se la lista è già caricata (non vuota), non fa di nuovo la fetch (fallback in caso di svuota catalogo futuro o problemi di backend)
         if (cellPhones.length === 0) {
             fetchPhonesWithDetails();
         } else {
             setLoading(false);
         }
 
-    }, [cellPhones.length, setCellPhones]);
+    }, [cellPhones.length]);
 
 
     //logica filtro per nome
     const filteredPhones = useMemo(() => {
         //console.log('calcolo filteredPhones');
-
         return cellPhones
             .filter((phone) =>
                 phone.title.toLowerCase().startsWith(debouncedQuery.trim().toLowerCase()))
             //logica filtro per categoria
             .filter((phone) =>
-                selectedCategory ? phone.category === selectedCategory : true
+                selectedCategory ? phone.category === selectedCategory : true //(true = tutti i tel passano il filtro)
             );
     }, [cellPhones, debouncedQuery, selectedCategory]);
 
@@ -178,11 +170,11 @@ function CellPhoneList() {
                 ref={inputRef}
                 type="text"
                 placeholder="Cerca per nome..."
-                value={query}
+                value={query} //aggiorno subito l'input visivamente
                 onChange={(e) => {
                     setQuery(e.target.value);
                     //chiamo debounce
-                    handleSearch(e.target.value);
+                    handleSearch(e.target.value); //ritardo il filtraggio
                 }}
             />
 
