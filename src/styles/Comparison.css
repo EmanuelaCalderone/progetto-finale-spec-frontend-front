@@ -164,3 +164,37 @@
 .comparison-table td {
     width: 180px;
 }
+
+/*responsive - smartphone */
+@media (max-width: 430px) {
+    h2 {
+        font-size: 1em !important
+    }
+
+    .comparison-column {
+        display: none;
+    }
+
+    .vs-symbols-wrapper img {
+        display: none;
+    }
+
+    .comparison-table {
+        font-size: 0.8rem;
+        table-layout: auto;
+        display: block;
+    }
+
+    .comparison-table th:first-child,
+    .comparison-table td:first-child {
+        width: 1%;
+        white-space: wrap;
+        text-align: left;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        width: auto;
+        font-size: 0.6rem;
+    }
+}

@@ -147,3 +147,20 @@
     text-align: center;
     margin-top: 3rem;
 }
+
+/*responsive - smartphone */
+@media (max-width: 430px) {
+    .footer-container {
+        padding: 0.2em;
+    }
+
+    .footer-container p {
+        font-size: 1em;
+    }
+
+    .favorites-empty {
+        background-color: transparent;
+        padding: 0;
+
+    }
+}

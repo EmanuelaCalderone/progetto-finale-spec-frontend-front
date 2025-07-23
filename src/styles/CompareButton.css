@@ -38,3 +38,12 @@
     pointer-events: none;
     opacity: 0.8;
 }
+
+/*responsive - smartphone */
+@media (max-width: 430px) {
+    .select-button-wrapper {
+        position: sticky;
+        top: 1rem !important;
+        margin-top: 1em;
+    }
+}

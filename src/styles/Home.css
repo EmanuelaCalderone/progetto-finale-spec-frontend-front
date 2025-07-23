@@ -30,3 +30,16 @@
     z-index: 1;
     text-align: center;
 }
+
+
+/*responsive - smartphone */
+@media (max-width: 430px) {
+    .jumbotron {
+        max-width: 430px;
+    }
+
+    .jumbo-title {
+        font-size: 0.7em;
+    }
+
+}
