@@ -6,7 +6,7 @@ import '../styles/Checkbox.css';
 function Checkbox({ phone }) {
 
     //prende dal contesot la lista con i telefoni selezinati per il confronto e la funzione per gestirle, e la funzione per vedere se il tel è già nlla lista
-    const { compareList, setCompareList, isPhoneInCompareList } = useGlobalContext();
+    const { compareList, setCompareList, isPhoneInCompareList, toggleCompare } = useGlobalContext();
 
     //stato per telefoni selezionati
     const [isSelected, setIsSelected] = useState(false);
@@ -21,18 +21,12 @@ function Checkbox({ phone }) {
 
     //logica per la checkbox al click
     const handleChange = (e) => {
-        if (e.target.checked) {
-            setCompareList((prevCompareList) => {
-                if (prevCompareList.length >= 3 && !isSelected) {
-                    setStatus('Puoi confrontare al massimo 3 telefoni');
-                    setTimeout(() => setStatus(''), 2000);
-                    return prevCompareList;
-                }
-                return [...prevCompareList, phone];
-            });
-        } else { //se la checkbox viene deselezioanta, crea un array nuovo che include solo i tel con id diverso da quello attuale = rimuovi il tel deselezionato
-            setCompareList((prevCompareList) => prevCompareList.filter((p) => p.id !== phone.id));
+        if (e.target.checked && compareList.length >= 3 && !isSelected) {
+            setStatus('Puoi confrontare al massimo 3 telefoni');
+            setTimeout(() => setStatus(''), 2000);
+            return;
         }
+        toggleCompare(phone);
     };
 
     return (

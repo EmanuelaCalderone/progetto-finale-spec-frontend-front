@@ -7,23 +7,16 @@ const GlobalContext = createContext();
 
 export function GlobalProvider({ children }) {
 
-    //1.1inizializzo stato dei PREFERITI salvati su LOCALSTORAGE (dati persistenti)
+    //1.inizializzo stato dei PREFERITI salvati su LOCALSTORAGE (dati persistenti)
     const [favorites, setFavorites] = useLocalStorage('favorites', []);
-    /* const [favorites, setFavorites] = useState(() => { //così la chiamata avviene solo al primo render (funzione 'lazy inizialiter)
-        const stored = localStorage.getItem('favorites');
-        return stored ? JSON.parse(stored) : [];
-    }); */
 
-    //1.2gestione interattiva dello stato
-    /* const toggleFavorite = (phone) => {
-        const isFavorite = favorites.some((f) => f.id === phone.id);
-        const updated = isFavorite
-            ? favorites.filter((f) => f.id !== phone.id)
-            : [...favorites, phone];
-        setFavorites(updated);
-    }; */
+    //2.inizializzo stato per lista CONFRONTO salvata su LOCALSTORAGE
+    const [compareList, setCompareList] = useLocalStorage('compareList', []);
 
-    //1.2toggleFavorite con useCallback (per evitare che si ri-creata causando re-render nei dei componenti che la usano)
+    //3.inizializzo stato per apertura/chiusura SIDEBAR
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    //1.1toggleFavorite con useCallback (per evitare che si ricrei causando re-render nei dei componenti che la usano)
     const toggleFavorite = useCallback((phone) => {
         setFavorites((fav) => {
             //controllo se il tel è nei preferiti
@@ -36,21 +29,7 @@ export function GlobalProvider({ children }) {
         });
     }, []);
 
-    //1.3effetto all'aggiunta/rimozione di favorites
-    /*  useEffect(() => {
-         localStorage.setItem('favorites', JSON.stringify(favorites));
-     }, [favorites]); */
-
-
-    //2.1inizializzo stato per lista CONFRONTO salvata su LOCALSTORAGE
-    const [compareList, setCompareList] = useLocalStorage('compareList', []);
-
-    /*  const [compareList, setCompareList] = useState(() => {
-         const stored = localStorage.getItem('compareList');
-         return stored ? JSON.parse(stored) : [];
-     }); */
-
-    //2.1.1 funzione per verificare se un telefono è già nella lista confronto
+    //2.1 funzione con useCallback per verificare se un telefono è già nella lista confronto
     const isPhoneInCompareList = useCallback((phoneId) => {
         return compareList.some((p) => p.id === phoneId);
     }, [compareList]);
@@ -75,14 +54,7 @@ export function GlobalProvider({ children }) {
         setCompareList([]);
     };
 
-    //2.3 effetto che viene eseguito ogni volta che viene aggiunto/rimosso un tel alla lista di confronto
-    /* useEffect(() => {
-        localStorage.setItem('compareList', JSON.stringify(compareList));
-    }, [compareList]); */
-
-    //3.stato per apertura/chiusura SIDEBAR
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-
+    //3.1 logica per apertura/chiusura sidebar
     const toggleSidebar = () => {
         //inverto il valore attuale
         setSidebarOpen((prev) => !prev);
