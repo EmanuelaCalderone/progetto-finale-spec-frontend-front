@@ -21,17 +21,23 @@ function CellPhoneDetails() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`http://localhost:3001/cellulars/${id}`)
-            .then((res) => res.json())
-            .then((data) => {
+        const fetchPhone = async () => {
+            try {
+                const res = await fetch(`http://localhost:3001/cellulars/${id}`)
+                if (!res.ok) {
+                    throw new Error(`Errore: Status: ${res.status}`)
+                }
+                const data = await res.json();
                 setPhone(data.cellular);
-                setIsLoading(false);
-            })
+            }
             //problemi network/backend/ecc
-            .catch((error) => {
+            catch (error) {
                 console.log('Errore nel caricamento delle specifiche: ', error);
+            } finally {
                 setIsLoading(false);
-            });
+            }
+        };
+        fetchPhone();
     }, [id]);
 
     if (isLoading) return <p>Caricamento in corso...</p>;
