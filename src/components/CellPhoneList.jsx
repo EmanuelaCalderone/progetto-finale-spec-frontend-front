@@ -58,12 +58,17 @@ function CellPhoneList() {
         []
     );
 
-    //recupero le categorie con reduce per rimuovere i duplicati
-    /* const categories = cellPhones.reduce((acc, phone) => {
-        if (!acc.includes(phone.category))
-            acc.push(phone.category);
-        return acc;
-    }, []); */
+    //logica filtro per nome
+    const filteredPhones = useMemo(() => {
+        //console.log('calcolo filteredPhones');
+        return cellPhones
+            .filter((phone) =>
+                phone.title.toLowerCase().startsWith(debouncedQuery.trim().toLowerCase()))
+            //logica filtro per categoria
+            .filter((phone) =>
+                selectedCategory ? phone.category === selectedCategory : true //(true = tutti i tel passano il filtro)
+            );
+    }, [cellPhones, debouncedQuery, selectedCategory]);
 
     //useMemo (per non ripetere calcolo ad ogni render) per menu categoria (anche se non fondamentale perché no calcolo pesante)
     const categories = useMemo(() => {
@@ -75,6 +80,28 @@ function CellPhoneList() {
             return acc;
         }, [])
     }, [cellPhones]);
+
+    //ordine alfabetico nome e categoria + anno (scelta personale)
+    const sortedPhones = useMemo(() => {
+        //console.log('calcolo sortedPhones');
+
+        return [...filteredPhones].sort((a, b) => {
+            const first = a[sortField];
+            const second = b[sortField];
+
+            if (typeof first === 'string' && typeof second === 'string') {
+                return sortOrder === 'asc'
+                    ? first.toLowerCase().localeCompare(second.toLowerCase())
+                    : second.toLowerCase().localeCompare(first.toLowerCase());
+            }
+
+            if (typeof first === 'number' && typeof second === 'number') {
+                return sortOrder === 'asc' ? first - second : second - first;
+            }
+
+            return 0; // fallback neutro
+        });
+    }, [filteredPhones, sortField, sortOrder]);
 
     //recupero dati dal backend
     useEffect(() => {
@@ -127,41 +154,6 @@ function CellPhoneList() {
         }
 
     }, []);
-
-
-    //logica filtro per nome
-    const filteredPhones = useMemo(() => {
-        //console.log('calcolo filteredPhones');
-        return cellPhones
-            .filter((phone) =>
-                phone.title.toLowerCase().startsWith(debouncedQuery.trim().toLowerCase()))
-            //logica filtro per categoria
-            .filter((phone) =>
-                selectedCategory ? phone.category === selectedCategory : true //(true = tutti i tel passano il filtro)
-            );
-    }, [cellPhones, debouncedQuery, selectedCategory]);
-
-    //ordine alfabetico nome e categoria + anno (scelta personale)
-    const sortedPhones = useMemo(() => {
-        //console.log('calcolo sortedPhones');
-
-        return [...filteredPhones].sort((a, b) => {
-            const first = a[sortField];
-            const second = b[sortField];
-
-            if (typeof first === 'string' && typeof second === 'string') {
-                return sortOrder === 'asc'
-                    ? first.toLowerCase().localeCompare(second.toLowerCase())
-                    : second.toLowerCase().localeCompare(first.toLowerCase());
-            }
-
-            if (typeof first === 'number' && typeof second === 'number') {
-                return sortOrder === 'asc' ? first - second : second - first;
-            }
-
-            return 0; // fallback neutro
-        });
-    }, [filteredPhones, sortField, sortOrder]);
 
     return (
         <div className="app-container">
