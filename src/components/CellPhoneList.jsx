@@ -49,7 +49,7 @@ function CellPhoneList() {
         inputRef.current.focus()
     }, []);
 
-    //funzione debounce per non aggiornare lo stato ad ogni battitura
+    //funzione debounce memoizzata con useCallback per non ricrarla ad ogni render del componente e rendere stabile il delay
     const handleSearch = useCallback(
         debounce((newQuery) => {
             setDebouncedQuery(newQuery.trim());
@@ -65,7 +65,7 @@ function CellPhoneList() {
         return acc;
     }, []); */
 
-    //useMemo per menu categoria (anche se non fondamentale perché no calcolo pesante)
+    //useMemo (per non ripetere calcolo ad ogni render) per menu categoria (anche se non fondamentale perché no calcolo pesante)
     const categories = useMemo(() => {
         //console.log('Calcolo categorie');
 
@@ -126,7 +126,7 @@ function CellPhoneList() {
             setLoading(false);
         }
 
-    }, [cellPhones.length]);
+    }, []);
 
 
     //logica filtro per nome

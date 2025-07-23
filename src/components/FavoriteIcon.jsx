@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useGlobalContext } from '../context/GlobalContext';
 //stile
 import '../styles/FavoriteIcon.css';

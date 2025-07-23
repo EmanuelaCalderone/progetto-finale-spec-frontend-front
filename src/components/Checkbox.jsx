@@ -14,7 +14,7 @@ function Checkbox({ phone }) {
     //stato per tooltip 'massimo tre telefoni'
     const [status, setStatus] = useState('');
 
-    //controlla se i ltelefono è già presnete nella lista dei tel da confrontare
+    //sincronizzo lo stato della checkbox in base alla presenza del tel nella lista di confronto
     useEffect(() => {
         setIsSelected(isPhoneInCompareList(phone.id)); //passo il risultato dlela funzione(la eseguo subito)
     }, [compareList, phone.id, isPhoneInCompareList]);

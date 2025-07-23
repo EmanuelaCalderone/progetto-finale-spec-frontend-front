@@ -6,7 +6,7 @@ import { useGlobalContext } from '../context/GlobalContext';
 import '../styles/Navbar.css';
 
 function Navbar() {
-    const { favorites, toggleSidebar, setQuery, setDebouncedQuery } = useGlobalContext();
+    const { favorites, toggleSidebar } = useGlobalContext();
 
     return (
         <nav className="navbar">

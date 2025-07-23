@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 
 //importo hook per localStorage
 import { useLocalStorage } from '../hooks/useLocalStorage';
@@ -16,7 +16,7 @@ export function GlobalProvider({ children }) {
     //3.inizializzo stato per apertura/chiusura SIDEBAR
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    //1.1toggleFavorite con useCallback (per evitare che si ricrei causando re-render nei dei componenti che la usano)
+    //1.1toggleFavorite con useCallback (per evitare che si ricrei causando re-render nei dei componenti che la usano) - forma funzionale di setFavorites
     const toggleFavorite = useCallback((phone) => {
         setFavorites((fav) => {
             //controllo se il tel è nei preferiti
