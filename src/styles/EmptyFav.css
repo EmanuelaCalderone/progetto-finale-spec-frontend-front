@@ -12,3 +12,8 @@
 .empty-fav:hover {
     transform: scale(1.01);
 }
+
+.empty-fav:disabled {
+    cursor: default;
+    opacity: 0.5;
+}

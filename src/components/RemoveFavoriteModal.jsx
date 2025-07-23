@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 
 import '../styles/RemoveFavoriteModal.css';
 
-function RemoveFavoriteModal({ isOpen, phone, onConfirm, onCancel, message }) {
+function RemoveFavoriteModal({ isOpen, phone, onConfirm, onCancel, message, hideTitle }) {
     const modalRoot = document.getElementById('modal-root');
     if (!isOpen || /* !phone || */ !modalRoot) return null;
 
@@ -12,7 +12,7 @@ function RemoveFavoriteModal({ isOpen, phone, onConfirm, onCancel, message }) {
         <div className="modal-backdrop">
             <div className="modal-content">
                 {/* testo modale */}
-                <h3>Rimuovi dai preferiti</h3>
+                {!hideTitle && <h3>Rimuovi dai preferiti</h3>}
                 <p>
                     {message || (
                         <>
