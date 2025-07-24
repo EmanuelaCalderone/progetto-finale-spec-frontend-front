@@ -20,13 +20,14 @@ export function GlobalProvider({ children }) {
 
     //LOGICHE 
 
-    //1.logica per aggiunzione/rimozione preferiti con useCallback (per evitare che si ricrei causando re-render nei dei componenti che la usano)
+    //1.logica per lettura + aggiunzione/rimozione preferiti con useCallback (per evitare che si ricrei causando re-render nei dei componenti che la usano)
     const isPhoneInFavorites = useCallback((phoneId) => {
         return favorites.some((f) => f.id === phoneId);
     }, [favorites]);
 
+    //gestione interattiva dello stato
     const toggleFavorite = (phone) => {
-        const isInList = favorites.some((f) => f.id === phone.id);
+        const isInList = isPhoneInFavorites(phone.id)
 
         const updated = isInList
             //se è già nei preferiti, lo rimuovo
@@ -38,14 +39,14 @@ export function GlobalProvider({ children }) {
         setFavorites(updated);
     };
 
-    //2 logica per aggiungzione/rimozione lista di confronto con useCallback 
+    //2 logica per lettura + aggiungzione/rimozione lista di confronto con useCallback 
     const isPhoneInCompareList = useCallback((phoneId) => {
         return compareList.some((p) => p.id === phoneId);
     }, [compareList]);
 
     //gestione interattiva dello stato
     const toggleCompare = (phone) => {
-        const isInList = compareList.some((p) => p.id === phone.id);
+        const isInList = isPhoneInCompareList(phone.id);
 
         const updated = isInList
             //rimuovo il telefono cliccato
