@@ -15,7 +15,7 @@ import '../styles/Comparison.css';
 function Comparison() {
     const { compareList } = useGlobalContext();
 
-    if (compareList.length < 2 || compareList.length > 3) {
+    if (compareList.length < 2) {
         return (
             <div className="comparison-table-container">
                 <h2 className="comparison-title">Telefonini vintage a confronto</h2>

@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-//importo il contesto per i preferiti e il confronto
-import { useGlobalContext } from '../context/GlobalContext';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { Link } from 'react-router-dom'
 
@@ -17,9 +15,6 @@ import '../styles/CellPhoneList.css';
 
 function CellPhoneList() {
 
-    //stati e funzioni dal contesto
-    const { favorites, toggleFavorite, compareList } = useGlobalContext();
-
     //stato per ricerca
     const [query, setQuery] = useState('');
 
@@ -28,10 +23,10 @@ function CellPhoneList() {
 
     //stato per caricamento
     const [loading, setLoading] = useState(false);
-    //stato per errore
+    //stato per (nessun/null) errore
     const [error, setError] = useState(null);
 
-    //stato per lista cellulari
+    //stato per lista cellulari con localStorage per fetch più rapida
     const [cellPhones, setCellPhones] = useLocalStorage('cellPhones', []);
 
     //stato per gestione categoria selezionata
@@ -44,8 +39,10 @@ function CellPhoneList() {
     const [sortOrder, setSortOrder] = useState('asc')
 
     //useRef per barra di ricerca subito attiva
+    //creo rif all'input
     const inputRef = useRef(null);
     useEffect(() => {
+        //prima null, poi lo collego a inputRef.current
         inputRef.current.focus()
     }, []);
 
@@ -58,17 +55,18 @@ function CellPhoneList() {
         []
     );
 
-    //logica filtro per nome
+    //logica filtro nome e categoria
     const filteredPhones = useMemo(() => {
         //console.log('calcolo filteredPhones');
         return cellPhones
+            //logica filtro per nome
             .filter((phone) =>
                 phone.title.toLowerCase().startsWith(debouncedQuery.trim().toLowerCase()))
             //logica filtro per categoria
             .filter((phone) =>
                 selectedCategory ? phone.category === selectedCategory : true //(true = tutti i tel passano il filtro)
             );
-    }, [cellPhones, debouncedQuery, selectedCategory]);
+    }, [cellPhones, debouncedQuery, selectedCategory]); //cellphone cambia se cambia il risultato della fetch dal backend (setCellPhones(fullPhones))
 
     //useMemo (per non ripetere calcolo ad ogni render) per menu categoria (anche se non fondamentale perché no calcolo pesante)
     const categories = useMemo(() => {
@@ -83,24 +81,33 @@ function CellPhoneList() {
 
     //ordine alfabetico nome e categoria + anno (scelta personale)
     const sortedPhones = useMemo(() => {
-        //console.log('calcolo sortedPhones');
 
         return [...filteredPhones].sort((a, b) => {
-            const first = a[sortField];
-            const second = b[sortField];
-
-            if (typeof first === 'string' && typeof second === 'string') {
+            //ordine alfabetico per nome
+            if (sortField === 'title') {
                 return sortOrder === 'asc'
-                    ? first.toLowerCase().localeCompare(second.toLowerCase())
-                    : second.toLowerCase().localeCompare(first.toLowerCase());
+                    ? a.title.localeCompare(b.title)
+                    : b.title.localeCompare(a.title);
             }
 
-            if (typeof first === 'number' && typeof second === 'number') {
-                return sortOrder === 'asc' ? first - second : second - first;
+            //ordine alfabetico per categoria
+            if (sortField === 'category') {
+                return sortOrder === 'asc'
+                    ? a.category.localeCompare(b.category)
+                    : b.category.localeCompare(a.category);
             }
 
-            return 0; // fallback neutro
+            //ordine per anno
+            if (sortField === 'year') {
+                return sortOrder === 'asc'
+                    ? a.year - b.year
+                    : b.year - a.year;
+            }
+
+            return 0; // fallback
+
         });
+
     }, [filteredPhones, sortField, sortOrder]);
 
     //recupero dati dal backend
@@ -130,7 +137,7 @@ function CellPhoneList() {
                         //parso risposta singola
                         const data = await res.json();
 
-                        //recupero dal campo 'cellular' dall’oggetto restituito
+                        //recupero tutti i dati dall'oggetto e non direttamente tutto l'oggetto
                         return data.cellular;
                     })
                 );
@@ -146,7 +153,7 @@ function CellPhoneList() {
             }
         };
 
-        //se la lista è già caricata (non vuota), non fa di nuovo la fetch (fallback in caso di svuota catalogo futuro o problemi di backend)
+        //se la lista è vuota, fai la fetch (fallback in caso di svuota catalogo futuro o problemi di backend)
         if (cellPhones.length === 0) {
             fetchPhonesWithDetails();
         } else {
