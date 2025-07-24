@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useGlobalContext } from './context/GlobalContext';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -14,13 +13,12 @@ import Favorites from './pages/Favorites';
 import './styles/App.css';
 
 function App() {
-  const { toggleSidebar } = useGlobalContext();
 
   //routing
   return (
     <BrowserRouter>
       <div className="app-wrapper">
-        <Navbar toggleOpen={toggleSidebar} />
+        <Navbar />
         <FavoriteSidebar />
         <main className="main-container">
           <Routes>

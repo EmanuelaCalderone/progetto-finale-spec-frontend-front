@@ -30,7 +30,7 @@ function Navbar() {
             </ul>
 
             {/*cuore in alto a destra */}
-            <button className="favorite-toggle" onClick={toggleSidebar} label="Preferiti">
+            <button className="favorite-toggle" onClick={toggleSidebar}>
                 <i className="fas fa-heart filled-heart"></i>
                 {favorites.length > 0 && (
                     <span className="favorite-badge">{favorites.length}</span>
