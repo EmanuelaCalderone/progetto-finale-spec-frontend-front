@@ -7,6 +7,8 @@ const GlobalContext = createContext();
 
 export function GlobalProvider({ children }) {
 
+    //STATI 
+
     //1.inizializzo stato dei PREFERITI salvati su LOCALSTORAGE (dati persistenti)
     const [favorites, setFavorites] = useLocalStorage('favorites', []);
 
@@ -16,25 +18,32 @@ export function GlobalProvider({ children }) {
     //3.inizializzo stato per apertura/chiusura SIDEBAR
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    //1.1toggleFavorite con useCallback (per evitare che si ricrei causando re-render nei dei componenti che la usano) - forma funzionale di setFavorites
-    const toggleFavorite = useCallback((phone) => {
-        setFavorites((fav) => {
-            //controllo se il tel è nei preferiti
-            const isFavorite = fav.some((f) => f.id === phone.id);
-            return isFavorite
-                //se è già nei preferiti, lo rimuovo e restituisco un array con i tel con id diverso da quello cliccato
-                ? fav.filter((f) => f.id !== phone.id)
-                //altrimenti lo aggiungo
-                : [...fav, phone];
-        });
-    }, []);
+    //LOGICHE 
 
-    //2.1 funzione con useCallback per verificare se un telefono è già nella lista confronto
+    //1.logica per aggiunzione/rimozione preferiti con useCallback (per evitare che si ricrei causando re-render nei dei componenti che la usano)
+    const isPhoneInFavorites = useCallback((phoneId) => {
+        return favorites.some((f) => f.id === phoneId);
+    }, [favorites]);
+
+    const toggleFavorite = (phone) => {
+        const isInList = favorites.some((f) => f.id === phone.id);
+
+        const updated = isInList
+            //se è già nei preferiti, lo rimuovo
+            ? favorites.filter((f) => f.id !== phone.id)
+            //altrimenti lo aggiungo
+            : [...favorites, phone];
+
+        //aggiorno lo stato con l'array modificato
+        setFavorites(updated);
+    };
+
+    //2 logica per aggiungzione/rimozione lista di confronto con useCallback 
     const isPhoneInCompareList = useCallback((phoneId) => {
         return compareList.some((p) => p.id === phoneId);
     }, [compareList]);
 
-    //2.2gestione interattiva dello stato
+    //gestione interattiva dello stato
     const toggleCompare = (phone) => {
         const isInList = compareList.some((p) => p.id === phone.id);
 
@@ -54,7 +63,7 @@ export function GlobalProvider({ children }) {
         setCompareList([]);
     };
 
-    //3.1 logica per apertura/chiusura sidebar
+    //3.logica per apertura/chiusura sidebar
     const toggleSidebar = () => {
         //inverto il valore attuale
         setSidebarOpen((prev) => !prev);
