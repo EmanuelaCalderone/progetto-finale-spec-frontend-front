@@ -6,7 +6,7 @@ import '../styles/Checkbox.css';
 function Checkbox({ phone }) {
 
     //prende dal contesot la lista con i telefoni selezinati per il confronto e la funzione per gestirle, e la funzione per vedere se il tel è già nlla lista
-    const { compareList, setCompareList, isPhoneInCompareList, toggleCompare } = useGlobalContext();
+    const { compareList, toggleCompare } = useGlobalContext();
 
     //stato per telefoni selezionati
     const [isSelected, setIsSelected] = useState(false);
@@ -16,8 +16,10 @@ function Checkbox({ phone }) {
 
     //sincronizzo lo stato della checkbox in base alla presenza del tel nella lista di confronto
     useEffect(() => {
-        setIsSelected(isPhoneInCompareList(phone.id)); //passo il risultato dlela funzione(la eseguo subito)
-    }, [compareList, phone.id, isPhoneInCompareList]);
+        const isInList = compareList.some((p) => p.id === phone.id);
+        setIsSelected(isInList);
+    }, [compareList, phone.id]);
+
 
     //logica per la checkbox al click
     const handleChange = (e) => {

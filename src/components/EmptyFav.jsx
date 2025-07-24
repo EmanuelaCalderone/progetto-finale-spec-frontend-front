@@ -4,7 +4,7 @@ import RemoveFavoriteModal from './RemoveFavoriteModal';
 import "../styles/EmptyFav.css"
 
 function EmptyFav() {
-    const { favorites, setFavorites } = useGlobalContext();
+    const { favorites, clearFavorites } = useGlobalContext();
 
     //"modifica" modale già esistente
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,7 +18,7 @@ function EmptyFav() {
     }
 
     function onConfirm() {
-        setFavorites([]);
+        clearFavorites();
         closeModal();
     }
 

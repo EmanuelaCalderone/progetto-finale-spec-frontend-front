@@ -18,7 +18,7 @@ import '../styles/CellPhoneList.css';
 function CellPhoneList() {
 
     //stati e funzioni dal contesto
-    const { favorites, toggleFavorite, compareList, setCompareList } = useGlobalContext();
+    const { favorites, toggleFavorite, compareList } = useGlobalContext();
 
     //stato per ricerca
     const [query, setQuery] = useState('');

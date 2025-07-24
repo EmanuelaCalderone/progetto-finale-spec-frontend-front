@@ -21,48 +21,35 @@ export function GlobalProvider({ children }) {
     //LOGICHE 
 
     //1.logica per lettura + aggiunzione/rimozione preferiti con useCallback (per evitare che si ricrei causando re-render nei dei componenti che la usano)
-    const isPhoneInFavorites = useCallback((phoneId) => {
-        return favorites.some((f) => f.id === phoneId);
-    }, [favorites]);
-
-    //gestione interattiva dello stato
-    const toggleFavorite = (phone) => {
-        const isInList = isPhoneInFavorites(phone.id)
+    const toggleFavorite = useCallback((phone) => {
+        const isInList = favorites.some((f) => f.id === phone.id);
 
         const updated = isInList
-            //se è già nei preferiti, lo rimuovo
             ? favorites.filter((f) => f.id !== phone.id)
-            //altrimenti lo aggiungo
             : [...favorites, phone];
 
-        //aggiorno lo stato con l'array modificato
         setFavorites(updated);
+    }, [favorites]);
+
+    //1.1 per evuotare la lista
+    const clearFavorites = () => {
+        setFavorites([]);
     };
 
-    //2 logica per lettura + aggiungzione/rimozione lista di confronto con useCallback 
-    const isPhoneInCompareList = useCallback((phoneId) => {
-        return compareList.some((p) => p.id === phoneId);
-    }, [compareList]);
-
-    //gestione interattiva dello stato
-    const toggleCompare = (phone) => {
-        const isInList = isPhoneInCompareList(phone.id);
+    //2 logica per lettura e aggiungzione/rimozione lista di confronto con useCallback 
+    const toggleCompare = useCallback((phone) => {
+        const isInList = compareList.some((p) => p.id === phone.id);
 
         const updated = isInList
-            //rimuovo il telefono cliccato
+            //se il telefono è già nella lista, lo rimuovo
             ? compareList.filter((p) => p.id !== phone.id)
+            //altrimenti lo aggiungo (se la lista ha meno di 3 elementi)
             : compareList.length < 3
                 ? [...compareList, phone]
                 : compareList;
 
-        //aggiorno lo stato con l'array modificato
         setCompareList(updated);
-    };
-
-    //funzione per azzerare la lista
-    const clearCompare = () => {
-        setCompareList([]);
-    };
+    }, [compareList]);
 
     //3.logica per apertura/chiusura sidebar
     const toggleSidebar = () => {
@@ -75,15 +62,12 @@ export function GlobalProvider({ children }) {
         <GlobalContext.Provider
             value={{
                 favorites,
-                setFavorites,
                 toggleFavorite,
+                clearFavorites,
                 compareList,
                 toggleCompare,
-                clearCompare,
                 sidebarOpen,
                 toggleSidebar,
-                setCompareList,
-                isPhoneInCompareList,
             }}
         >
             {children}

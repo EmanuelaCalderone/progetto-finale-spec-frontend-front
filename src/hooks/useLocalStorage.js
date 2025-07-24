@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 export function useLocalStorage(key, initialValue) {
     //value= stato che rappresenta i dati salvati(lista confronto e pref)
     const [value, setValue] = useState(() => {
+        //leggo dal LS il valore passato
         const stored = localStorage.getItem(key);
         return stored ? JSON.parse(stored) : initialValue;
     });
