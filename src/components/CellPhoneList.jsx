@@ -120,7 +120,7 @@ function CellPhoneList() {
             try {
 
                 //primo fetch: recupero la lista "base" (id, title, category)
-                const res = await fetch('http://localhost:3001/cellulars');
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/cellulars`);
 
                 if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
 
@@ -131,7 +131,7 @@ function CellPhoneList() {
                 const fullPhones = await Promise.all(
                     basicPhones.map(async (phone) => {
                         //recupero dal backend il singolo telefono via id
-                        const res = await fetch(`http://localhost:3001/cellulars/${phone.id}`);
+                        const res = await fetch(`${import.meta.env.VITE_API_URL}/cellulars/${phone.id}`);
                         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
                         //parso risposta singola

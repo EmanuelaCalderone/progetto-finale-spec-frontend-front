@@ -23,7 +23,8 @@ function CellPhoneDetails() {
     useEffect(() => {
         const fetchPhone = async () => {
             try {
-                const res = await fetch(`http://localhost:3001/cellulars/${id}`)
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/cellulars/${id}`)
+
                 if (!res.ok) {
                     throw new Error(`Errore: Status: ${res.status}`)
                 }
