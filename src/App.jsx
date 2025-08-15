@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import GAListener from "./GAListener";
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -21,6 +22,7 @@ function App() {
         <Navbar />
         <FavoriteSidebar />
         <main className="main-container">
+          <GAListener />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
